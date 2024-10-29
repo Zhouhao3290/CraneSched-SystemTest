@@ -101,7 +101,7 @@ $TEST_FRAME_PATH/crane-mininet.py --conf config.yaml --crane-conf crane-mininet.
 
 
 # 2.2 clear data table
-sh $DB_SCRIPTS_PATH/WipeData.sh mode 5
+sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
 cd $DIR
 python3 src/main.py $test_args
