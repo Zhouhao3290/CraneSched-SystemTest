@@ -11,7 +11,7 @@ from src.utils import get_response, run_shell_command
 logger = logging.getLogger()
 
 
-def get_all_system_test_cases(folder: str) -> list:
+def get_all_system_test_cases(folder: str, case_list: list) -> list:
     """
     get all cases by path, and then merge by base case, the level of val in cur case is higher than it in base case.
     :param folder: path for all cases
@@ -21,12 +21,11 @@ def get_all_system_test_cases(folder: str) -> list:
     for dir_path, dir_names, file_names in os.walk(folder):  # 遍历folder文件夹下所有子目录和文件
         for file_name in file_names:
             match = re.search(r'^case_(?P<name>\w+)\.json$', file_name)
-            if match is None:
+            if match is None or (len(list) > 0 and file_name not in case_list):
                 continue
             with open(os.path.join(dir_path, file_name), encoding='utf-8') as f:
                 case_json = json.load(f)
                 cases_deque.append(case_json)
-
     return cases_deque
 
 def run_test_process(list) -> bool:

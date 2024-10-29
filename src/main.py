@@ -15,8 +15,12 @@ def main():
     ## 初始化参数
     global mininet_service, ctld_service
     parser = argparse.ArgumentParser()
-    parser.add_argument('--folder', type=str, default='testcases', help='cases to use')
+    parser.add_argument('--case', type=str, default='', help='specify cases')
+    parser.add_argument('--folder', type=str, default='../testcases', help='cases to use')
     args = parser.parse_args()
+    case_list = []
+    if len(args.case) > 0:
+        case_list = args.case.split(',')
 
     ## 初始化
     init()
@@ -31,7 +35,7 @@ def main():
         exit(1)
 
     ## 获取所有可执行的用例,并执行用例
-    cases = get_all_system_test_cases(args.folder)
+    cases = get_all_system_test_cases(args.folder, case_list)
     if not cases:
         init_case()
     else:
