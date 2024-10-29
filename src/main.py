@@ -1,7 +1,5 @@
-import logging
 import argparse
 import traceback
-from msilib import init_database
 
 from src.service.ctld_service import CraneCtldService
 from src.service.mininet_service import MininetService

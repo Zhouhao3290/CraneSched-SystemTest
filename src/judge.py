@@ -1,5 +1,4 @@
 
-
 def dict_contains(dict1, dict2):
     """
     判断 dict1 是否包含 dict2 的所有键值对。
