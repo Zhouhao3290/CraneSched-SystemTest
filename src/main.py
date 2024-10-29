@@ -32,6 +32,10 @@ def main():
 
     ## 获取所有可执行的用例,并执行用例
     cases = get_all_system_test_cases(args.folder)
+    if not cases:
+        init_case()
+    else:
+        exit(0)
     failed, passed, error = 0, 0, 0
     failed_case = []
     for i, case in enumerate(cases):
@@ -76,7 +80,6 @@ def init():
     mininet_config_dict = get_mininet_config()
     backup_and_modify_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
                                 mininet_config_dict)
-    init_case()
 
 def reset():
     # 恢复ctld启动配置
