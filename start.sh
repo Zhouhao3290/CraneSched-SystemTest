@@ -15,7 +15,7 @@ kill_process() {
 
 CRANE_BIN_PATH="../Crane/build/src"
 CRANE_FRONT_PATH="../CraneSched-FrontEnd/build/bin"
-BIN_PATH="usr/local/bin"
+#BIN_PATH="/usr/local/bin"
 TEST_FRAME_PATH="../CraneSched-TestFramework-Evaluator/TestFrame"
 DB_SCRIPTS_PATH="../Crane/scripts"
 
@@ -81,7 +81,7 @@ fi
 
 # 1.2 compile craned
 if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
-    [ ! -e "$BIN_PATH/cinfo" ] || \
+#    [ ! -e "$BIN_PATH/cinfo" ] || \
     [ "$need_compile" = true ]; then
     cd ../CraneSched-FrontEnd
     make
