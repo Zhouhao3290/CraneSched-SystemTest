@@ -1,68 +1,93 @@
 import logging
 import argparse
-import os
-
-import yaml
-import sys
-import json
 import traceback
+from msilib import init_database
 
-from case_handle import get_all_system_test_cases
-from src.judge import dict_contains
-from src.service.crane_ctld import CraneCtldService
+from src.service.ctld_service import CraneCtldService
+from src.service.mininet_service import MininetService
+from case_handle import *
 from utils import *
+from constants import *
 
 logger = logging.getLogger()
 
-
 def main():
-    ## 初始化
+    ## 初始化参数
+    global mininet_service, ctld_service
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config_path', type=str, default='conf/conf.yaml',
-                        help='config file')
     parser.add_argument('--folder', type=str, default='testcases', help='cases to use')
     args = parser.parse_args()
 
-    ## 修改启动配置
-    config_dict = get_deploy_config("testcases/base_case.json")
-    copy_and_modify_config_file("/etc/crane/config.yaml", "/etc/crane/config_backup.yaml", config_dict)
+    ## 初始化
+    init()
 
-    ## 启动craned虚拟节点
-
-    ## 启动ctld服务
     try:
-        service = CraneCtldService().start()
-
+        mininet_service = MininetService(MININET_SHELL_COMMAND).start()  ## 启动mininet虚拟化craned
+        run_shell_command(MININET_INIT_SHELL_COMMAND)
+        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND).start()   ## 启动ctld服务
     except:
         traceback.print_exc()
+        reset()
+        exit(1)
+
     ## 获取所有可执行的用例,并执行用例
     cases = get_all_system_test_cases(args.folder)
     failed, passed, error = 0, 0, 0
+    failed_case = []
     for i, case in enumerate(cases):
         logger.info('execute case {} [{}/{}]'.format(case['name'], i + 1, len(cases)))
         case_name = case['name']
-        judger = case['judger']
-        command = case['command']
-        is_succ = True
+        process = case['process']
         try:
-            case_pre_handle()
-            resps = get_response(command)
-        except:
-            is_succ = False
-            error = error + 1
-            logger.error('case {} execute failed!'.format(case_name))
-            traceback.print_exc()
-
-        if is_succ:
-            if dict_contains(resps, judger):
+            if run_test_process(process):
                 passed = passed + 1
             else:
                 failed = failed + 1
-    post_handle(service)
+        except:
+            error = error + 1
+            logger.error('case {} execute failed!'.format(case_name))
+            traceback.print_exc()
+        finally:
+            init_case()
 
-def post_handle(self, service) -> None:
-    self.service.stop()
-    recover_config_file()
+    mininet_service.stop()
+    ctld_service.stop()
+    reset()
+
+    if failed > 0 or error > 0:
+        logger.warning('system test finishd. passed: {}/{}, failed: {}/{}, error: {}/{}'
+                       .format(passed, len(cases), failed, len(cases), error, len(cases)))
+        logger.warning('case {} failed, please fix and rerun with arg --case={}.'.format(failed_case,
+                                                                                         ','.join(failed_case)))
+        exit(1)
+    else:
+        logger.info('system test finishd. passed: {}/{}, failed: {}/{}, error: {}/{}'
+                    .format(passed, len(cases), failed, len(cases), error, len(cases)))
+
+def init():
+    service_config_dict = get_service_config("testcases/base_case.yaml") # 读取测试的服务配置
+    # 临时修改ctld启动配置
+    backup_and_modify_yaml_file(CONFIG_PATH + "/config.yaml", CONFIG_PATH + "/config_backup.yaml",
+                                service_config_dict)
+    # 临时修改craned启动配置
+    backup_and_modify_yaml_file(TEST_FRAME_PATH + "/crane-mininet.yaml", TEST_FRAME_PATH + "/crane-mininet_backup.yaml",
+                                service_config_dict)
+    # 临时修改mininet启动配置
+    mininet_config_dict = get_mininet_config()
+    backup_and_modify_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
+                                mininet_config_dict)
+    init_case()
+
+def reset():
+    # 恢复ctld启动配置
+    recover_file(CONFIG_PATH + "/config.yaml", CONFIG_PATH + "/config_backup.yaml")
+    # 恢复craned启动配置
+    recover_file(TEST_FRAME_PATH + "/crane-mininet.yaml", TEST_FRAME_PATH + "/crane-mininet_backup.yaml")
+    recover_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml")
+
+    # 清除虚拟环境
+    run_shell_command(CLEAN_NET_SHELL_COMMAND)
+    run_shell_command(MININET_CLEAN_SHELL_COMMAND)
 
 if __name__ == '__main__':
     main()

@@ -2,14 +2,15 @@ import subprocess
 import os
 
 class CraneCtldService:
-    def __init__(self):
+    def __init__(self, command):
         self.process = None
+        self.command = command
 
     def start(self):
         """启动服务并返回服务对象"""
         try:
             # 使用 Popen 启动服务并创建新的进程组
-            self.process = subprocess.Popen("CraneCtld/cranectld", shell=True, preexec_fn=os.setsid)
+            self.process = subprocess.Popen(self.command, shell=True, preexec_fn=os.setsid)
             print(f"ctld服务已启动，PID={self.process.pid}")
             return self
         except Exception as e:
@@ -27,7 +28,7 @@ class CraneCtldService:
                 print(f"停止服务时出错: {e}")
 
     def is_running(self):
-        """检查craned服务是否在运行"""
+        """检查服务是否在运行"""
         if self.process :
             return self.process.poll() is None
         return False

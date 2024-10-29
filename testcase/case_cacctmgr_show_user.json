@@ -1,0 +1,43 @@
+{
+  "info": {
+    "desc": "test result of command='cacctmgr show user' ",
+    "create_time": "2024-10-28",
+    "author": "zhouhao"
+  },
+  "process": [
+    {
+      "command": "cacctmgr show user",
+      "perfect_match": true,
+      "judger": {
+        "ok":true,
+        "reason":"SUCCESS",
+        "user_list":[
+          {
+            "uid":0,
+            "name":"root",
+            "account":"ROOT*",
+            "blocked":false,
+            "allowed_partition_qos_list":[],
+            "coordinator_accounts":[],
+            "admin_level":"Root"
+          }
+        ]
+      }
+    },
+    {
+      "command": "cacctmgr show user root",
+      "perfect_match": false,
+      "judger": {
+        "ok":true,
+        "reason":"SUCCESS",
+        "user_list":[
+          {
+            "uid":0,
+            "name":"root"
+          }
+        ]
+      }
+      }
+    }
+  ]
+}

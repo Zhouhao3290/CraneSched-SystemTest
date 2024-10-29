@@ -1,0 +1,35 @@
+{
+  "info": {
+    "desc": "test result of command='cacctmgr show qos' ",
+    "create_time": "2024-10-28",
+    "author": "zhouhao"
+  },
+  "process": [
+    {
+      "command": "cacctmgr show qos",
+      "perfect_match": true,
+      "judger": {
+        "ok":true,
+        "reason":"SUCCESS",
+        "qos_list": [
+          {
+            "name": "UNLIMITED",
+            "description": "Crane default qos for unlimited resource",
+            "priority": 0,
+            "max_jobs_per_user": 4294967295,
+            "max_cpus_per_user": 4294967295,
+            "max_time_limit_per_task": "315576000000"
+          },
+          {
+            "name": "TestQos",
+            "description": "test",
+            "priority": 999,
+            "max_jobs_per_user": 2,
+            "max_cpus_per_user": 11,
+            "max_time_limit_per_task": "1800"
+          }
+        ]
+      }
+    }
+  ]
+}

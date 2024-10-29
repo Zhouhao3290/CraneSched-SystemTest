@@ -13,3 +13,6 @@ def dict_contains(dict1, dict2):
         if key not in dict1 or dict1[key] != value:
             return False
     return True
+
+def dict_equal(dict1, dict2):
+    return dict1 == dict2

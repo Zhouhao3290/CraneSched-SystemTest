@@ -1,0 +1,15 @@
+## 以下测试配置会合入/etc/crane/config.yaml文件中
+Nodes:
+  - name: "crnd[1-4]"
+    cpu: 4
+    memory: 2G
+
+Partitions:
+  - name: computing
+    nodes: "crnd[1-4]"
+
+  - name: CPU
+    nodes: "crnd[1-4]"
+
+  - name: GPU
+    nodes: "crnd[1-4]"

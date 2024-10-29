@@ -4,6 +4,10 @@ import json
 import logging
 import collections
 
+from src.constants import *
+from src.judge import *
+from src.utils import get_response, run_shell_command
+
 logger = logging.getLogger()
 
 
@@ -24,3 +28,33 @@ def get_all_system_test_cases(folder: str) -> list:
                 cases_deque.append(case_json)
 
     return cases_deque
+
+def run_test_process(list) -> bool:
+    if not list:
+        return False
+    for item in list:
+        command = item.get('command')
+        perfect_match = item.get('perfect_match', True)
+        judger = item.get("judger")
+        response = get_response(command)
+        if perfect_match:
+            if not dict_equal(response, judger): return False
+        else:
+            if not dict_contains(response, judger): return False
+    return True
+
+def init_case():
+    # 清空数据库
+    run_shell_command(CLEAN_ALL_TABLES_SHELL_COMMAND)
+    # 创建一个qos TestQos
+    run_shell_command(ADD_QOS_CRANE_COMMAND)
+    # 创建一个主账号 MainTestAccount
+    run_shell_command(ADD_MAIN_ACCOUNT_CRANE_COMMAND)
+    # 创建一个子账号 SubTestAccount
+    run_shell_command(ADD_SUB_ACCOUNT_CRANE_COMMAND)
+    # 创建一个用户 TestUser
+    run_shell_command(ADD_USER_SHELL_COMMAND)
+    run_shell_command(ADD_USER_CRANE_COMMAND)
+
+
+
