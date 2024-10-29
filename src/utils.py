@@ -1,3 +1,4 @@
+import json
 import logging
 import string
 import subprocess
@@ -20,7 +21,7 @@ def get_response_dict(command) -> dict:
         if ':' in line:
             key, value = line.split(':', 1)
             data[key.strip()] = value.strip()
-
+    print(json.dumps(data, indent=4))
     return data
 
 
@@ -33,7 +34,9 @@ def get_command_response(command) -> string:
     """
     response = run_shell_command(command)
     if response is None: return ''
-    else: return response.stdout.strip()
+    else:
+        print("response is " + response.stdout.strip())
+        return response.stdout.strip()
 
 
 def run_shell_command(command):
@@ -132,6 +135,7 @@ def recover_file(source_path, backup_path):
         print(f"删除失败：{e}")
 
 def get_service_config(file_path) -> dict:
+    print(f"file_path is {file_path} ")
     test_config_dict = read_yaml_to_dict(file_path)
     host_name = get_command_response("hostname")
     if host_name is None:

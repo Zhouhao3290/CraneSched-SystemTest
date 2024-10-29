@@ -43,6 +43,7 @@ def run_test_process(list) -> bool:
     return True
 
 def init_case():
+    logger.info('start init case.')
     # 清空数据库
     run_shell_command(CLEAN_ALL_TABLES_SHELL_COMMAND)
     # 创建一个qos TestQos

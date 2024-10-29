@@ -11,6 +11,7 @@ logger = logging.getLogger()
 
 def main():
     ## 初始化参数
+    logger.info('start main.py')
     global mininet_service, ctld_service
     parser = argparse.ArgumentParser()
     parser.add_argument('--case', type=str, default='', help='specify cases')
@@ -89,6 +90,7 @@ def init():
                                 "src/service/service_config.yaml")
     # 临时修改mininet启动配置
     mininet_config_dict = get_mininet_config()
+    print("mininet_config_dict is " + json.dumps(mininet_config_dict, indent=4))
     backup_and_modify_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
                                 mininet_config_dict)
 
