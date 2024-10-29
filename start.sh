@@ -2,7 +2,7 @@
 
 set -x  # 开启调试
 
-DIR="$( cd "$( dirname "$0" )/.." && pwd )"
+DIR="$( cd "$( dirname "$0" )" && pwd )"
 echo DIR
 
 kill_process() {
@@ -65,7 +65,7 @@ done
 if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     [ ! -e "$CRANE_BIN_PATH/Craned/craned" ] || \
     [ "$need_compile" = true ]; then
-    cd ../CraneSched
+    cd ../Crane
     if [ ! -d "$build" ]; then
         mkdir -p build
     fi
@@ -73,7 +73,7 @@ if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     cmake -G Ninja ..
     cmake --build . --target cranectld craned pam_crane
     if [ $? -eq 0 ]; then
-        echo "compile CraneSched failed"
+        echo "compile Crane failed"
         exit 1
     fi
     cd $DIR
