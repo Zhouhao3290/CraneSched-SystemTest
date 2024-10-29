@@ -23,6 +23,7 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "current user is not root."
     exit 1
 fi
+echo "current user is root."
 if [ ! -e "$CRANE_BIN_PATH" ]; then
     echo "Error: PATH $CRANE_BIN_PATH does not exist."
     exit 1
@@ -66,6 +67,7 @@ if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     [ ! -e "$CRANE_BIN_PATH/Craned/craned" ] || \
     [ "$need_compile" = true ]; then
     cd ../Crane
+    echo "start compile crane."
     if [ ! -d "$build" ]; then
         mkdir -p build
     fi
@@ -83,6 +85,7 @@ fi
 if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
 #    [ ! -e "$BIN_PATH/cinfo" ] || \
     [ "$need_compile" = true ]; then
+    echo "start compile crane front."
     cd ../CraneSched-FrontEnd
     make
     make install
@@ -95,16 +98,21 @@ fi
 
 # 2. init
 # 2.1 init test frame for virtualizing craned
+
 cd $TEST_FRAME_PATH
+echo "start clean net."
+
 mn -c
 chmod +x crane-mininet.py
 ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
 
-
+echo "start clean table."
 # 2.2 clear data table
 cd $DIR
 sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
+
+echo "start system test."
 python3 src/main.py $test_args
 
 usage() {
