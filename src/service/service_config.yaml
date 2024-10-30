@@ -1,6 +1,6 @@
 # Cluster settings (This must be identical across all nodes)
 # the hostname of node which is running cranectld
-ControlMachine: cranetest-rocky01
+ControlMachine: cranetest-system-test
 # the name of this cluster
 ClusterName: cranetest
 # the ip address of control machine
@@ -61,7 +61,7 @@ PriorityWeightQ0S: 1000000
 # node information list
 Nodes:
   - name: "crnd[1-4]"
-    cpu: 4
+    cpu: 2
     memory: 2G
 
 # partition information list
