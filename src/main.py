@@ -1,11 +1,11 @@
 import argparse
 import traceback
 
-from src.service.ctld_service import CraneCtldService
-from src.service.mininet_service import MininetService
-from src.case_handle import *
-from src.utils import *
-from src.constants import *
+from service.ctld_service import CraneCtldService
+from service.mininet_service import MininetService
+from case_handle import *
+from utils import *
+from constants import *
 
 logger = logging.getLogger()
 
@@ -71,7 +71,7 @@ def main():
                     .format(passed, len(cases), failed, len(cases), error, len(cases)))
 
 def init():
-    service_config_dict = get_service_config("testcases/base_case.yaml") # 读取测试的服务配置
+    service_config_dict = get_service_config("service/service_config.yaml") # 读取测试的服务配置
     # 临时修改ctld启动配置
     backup_and_modify_yaml_file(CONFIG_PATH + "/config.yaml", CONFIG_PATH + "/config_backup.yaml",
                                 service_config_dict)

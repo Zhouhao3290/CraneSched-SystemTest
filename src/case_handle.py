@@ -4,9 +4,9 @@ import json
 import logging
 import collections
 
-from src.constants import *
-from src.judge import *
-from src.utils import get_response, run_shell_command
+from constants import *
+from judge import *
+from utils import get_response, run_shell_command
 
 logger = logging.getLogger()
 
