@@ -17,10 +17,10 @@ class CraneCtldService:
             print(f"ctld服务已启动，PID={self.process.pid}")
 
             start_time = time.time()
-            timeout = 180
+            timeout = 60
             success = 'All craned nodes are up'
-            while self.is_running():
-                time.sleep(10)
+            while self.is_running() and time.time() - start_time < timeout:
+
                 output = self.process.stdout.readline()
                 if output:
                     decoded_output = output.decode('utf-8').strip()
@@ -28,14 +28,11 @@ class CraneCtldService:
                     if success in decoded_output:
                         print(f"Found the string '{success}' in the output.")
                         return self
-
-                # 检查是否超时
-                if time.time() - start_time >= timeout:
-                    print("Timeout reached, service did not return the expected output.")
-                    break
+                time.sleep(5)
+            print(f"ctld服务启动超时，PID: {self.process.pid}")
             return None
         except Exception as e:
-            print(f"启动服务时出错: {e}")
+            print(f"启动ctld服务时出错: {e}")
             return None
 
     def stop(self):

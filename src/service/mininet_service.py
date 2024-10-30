@@ -1,6 +1,8 @@
 import shlex
 import subprocess
 import os
+import time
+
 
 class MininetService:
     def __init__(self, command):
@@ -13,15 +15,23 @@ class MininetService:
         try:
             # 使用 subprocess 启动服务
             self.process = subprocess.Popen(
-                shlex.split(self.command),   # 分割命令行字符串，以便正确处理参数
-                stdout=subprocess.PIPE,      # 将标准输出重定向到管道
-                stderr=subprocess.PIPE,      # 将标准错误重定向到管道
-                preexec_fn=os.setsid         # 在新的进程组中运行子进程
+                shlex.split(self.command),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                preexec_fn=os.setsid
             )
-            print(f"服务已启动，PID: {self.process.pid}")
+            print(f"mininet服务已启动，PID: {self.process.pid}")
+            start_time = time.time()
+            timeout = 60
+            while self.is_running() and time.time() - start_time < timeout:
+                output = self.process.stdout.readline()
+                if output:
+                    decoded_output = output.decode('utf-8').strip()
+                    print(decoded_output)
+            print(f"mininet服务启动完成，PID: {self.process.pid}")
             return self
         except Exception as e:
-            print(f"启动服务时出错: {e}")
+            print(f"启动mininet服务时出错: {e}")
             return None
 
     def stop(self):
