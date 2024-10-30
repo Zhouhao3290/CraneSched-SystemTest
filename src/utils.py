@@ -63,6 +63,26 @@ def read_yaml_to_dict(file_path) -> dict:
     with open(file_path, 'r', encoding='utf-8') as file:
         return yaml.safe_load(file) or {}
 
+def backup_and_copy_yaml_file(source_path, backup_path, test_path):
+    """
+    1. source_path拷贝到backup_path
+    2. 删除
+    :param source_path: 源文件路径
+    :param new_path: 目标文件路径
+    :param test_path: 测试配置
+    """
+    try:
+        # config.yaml复制为config_backup.yaml
+        if os.path.exists(backup_path):
+            os.remove(backup_path)
+        shutil.copy(source_path, backup_path)
+
+        os.remove(source_path)
+        shutil.copy(test_path, source_path)
+    except PermissionError:
+        print(f"错误：没有权限访问文件")
+    except Exception as e:
+        print(f"操作失败：{e}")
 
 def backup_and_modify_yaml_file(source_path, backup_path, test_dict):
     """
