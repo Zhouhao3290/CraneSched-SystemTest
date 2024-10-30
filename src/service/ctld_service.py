@@ -1,5 +1,7 @@
 import subprocess
 import os
+import time
+
 
 class CraneCtldService:
     def __init__(self, command):
@@ -10,9 +12,28 @@ class CraneCtldService:
         """启动服务并返回服务对象"""
         try:
             # 使用 Popen 启动服务并创建新的进程组
-            self.process = subprocess.Popen(self.command, shell=True, preexec_fn=os.setsid)
+            self.process = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, preexec_fn=os.setsid)
             print(f"ctld服务已启动，PID={self.process.pid}")
-            return self
+
+            start_time = time.time()
+            timeout = 180
+            success = 'All craned nodes are up'
+            while self.is_running():
+                time.sleep(10)
+                output = self.process.stdout.readline()
+                if output:
+                    decoded_output = output.decode('utf-8').strip()
+                    print(decoded_output)  # 打印输出
+                    if success in decoded_output:
+                        print(f"Found the string '{success}' in the output.")
+                        return self
+
+                # 检查是否超时
+                if time.time() - start_time >= timeout:
+                    print("Timeout reached, service did not return the expected output.")
+                    break
+            return None
         except Exception as e:
             print(f"启动服务时出错: {e}")
             return None

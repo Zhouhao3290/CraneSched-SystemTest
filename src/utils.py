@@ -73,6 +73,8 @@ def backup_and_modify_yaml_file(source_path, backup_path, test_dict):
     """
     try:
         # config.yaml复制为config_backup.yaml
+        if os.path.exists(backup_path):
+            os.remove(backup_path)
         shutil.copy(source_path, backup_path)
 
         # 读取yaml文件
