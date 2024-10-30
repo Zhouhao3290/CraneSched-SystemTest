@@ -6,7 +6,7 @@ import collections
 
 from constants import *
 from judge import *
-from utils import get_response, run_shell_command
+from utils import run_shell_command, get_response_dict
 
 logger = logging.getLogger()
 
@@ -35,7 +35,7 @@ def run_test_process(list) -> bool:
         command = item.get('command')
         perfect_match = item.get('perfect_match', True)
         judger = item.get("judger")
-        response = get_response(command)
+        response = get_response_dict(command)
         if perfect_match:
             if not dict_equal(response, judger): return False
         else:

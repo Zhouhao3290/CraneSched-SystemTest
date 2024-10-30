@@ -1,4 +1,5 @@
 import logging
+import string
 import subprocess
 import os
 import yaml
@@ -6,17 +7,14 @@ import shutil
 
 logger = logging.getLogger()
 
-def get_response(command) -> dict:
+def get_response_dict(command) -> dict:
     """
-    执行shell命令，并将执行结果转为dict返回
+    执行shell命令，拿到string的标准输出，并转为dict
 
     :param command: shell命令
-    :return: dict数据
+    :return: dict
     """
-    response = run_shell_command(command)
-    if response is None: return {}
-    output = response.stdout.strip()
-
+    output = get_command_response(command)
     data = {}
     for line in output.splitlines():
         if ':' in line:
@@ -24,6 +22,19 @@ def get_response(command) -> dict:
             data[key.strip()] = value.strip()
 
     return data
+
+
+def get_command_response(command) -> string:
+    """
+    执行shell命令，并拿到string的标准输出
+
+    :param command: shell命令
+    :return: string
+    """
+    response = run_shell_command(command)
+    if response is None: return ''
+    else: return response.stdout.strip()
+
 
 def run_shell_command(command):
     """
@@ -98,7 +109,7 @@ def recover_file(source_path, backup_path):
 
 def get_service_config(file_path) -> dict:
     test_config_dict = read_yaml_to_dict(file_path)
-    host_name = get_response("hostname")
+    host_name = get_command_response("hostname")
     if host_name is None:
         logger.info('hostname is none.')
         return exit(1)
@@ -107,8 +118,8 @@ def get_service_config(file_path) -> dict:
     return test_config_dict
 
 def get_mininet_config() -> dict:
-    host_name = get_response("hostname")
-    host_ip = get_response("hostname -I")
+    host_name = get_command_response("hostname")
+    host_ip = get_command_response("hostname -I")
     if host_name is None or host_ip is None:
         logger.info('hostname or hostIP is none.')
         return exit(1)
