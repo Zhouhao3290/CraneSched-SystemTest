@@ -98,7 +98,7 @@ def recover_file(source_path, backup_path):
 
 def get_service_config(file_path) -> dict:
     test_config_dict = read_yaml_to_dict(file_path)
-    host_name = run_shell_command("hostname")
+    host_name = get_response("hostname")
     if host_name is None:
         logger.info('hostname is none.')
         return exit(1)
@@ -107,8 +107,8 @@ def get_service_config(file_path) -> dict:
     return test_config_dict
 
 def get_mininet_config() -> dict:
-    host_name = run_shell_command("hostname")
-    host_ip = run_shell_command("hostname -I")
+    host_name = get_response("hostname")
+    host_ip = get_response("hostname -I")
     if host_name is None or host_ip is None:
         logger.info('hostname or hostIP is none.')
         return exit(1)

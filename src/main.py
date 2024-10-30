@@ -71,7 +71,7 @@ def main():
                     .format(passed, len(cases), failed, len(cases), error, len(cases)))
 
 def init():
-    service_config_dict = get_service_config("service/service_config.yaml") # 读取测试的服务配置
+    service_config_dict = get_service_config("src/service/service_config.yaml") # 读取测试的服务配置
     # 临时修改ctld启动配置
     backup_and_modify_yaml_file(CONFIG_PATH + "/config.yaml", CONFIG_PATH + "/config_backup.yaml",
                                 service_config_dict)
