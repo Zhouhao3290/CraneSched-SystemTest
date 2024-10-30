@@ -112,6 +112,10 @@ def backup_and_modify_yaml_file(source_path, backup_path, test_dict):
                 yaml.safe_dump(test_dict, file, default_flow_style=False, allow_unicode=True)
     # except FileNotFoundError:
     #     print(f"错误：源文件 {source_path} 不存在")
+
+        with open(source_path, 'r', encoding='utf-8') as file:
+            data = yaml.safe_load(file)
+        print("source_path is " + source_path + ", and info is " + json.dumps(data, indent=4, ensure_ascii=False))
     except PermissionError:
         print(f"错误：没有权限访问文件")
     except Exception as e:

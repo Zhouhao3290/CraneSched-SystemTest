@@ -1,6 +1,5 @@
 import argparse
 import traceback
-
 from service.ctld_service import CraneCtldService
 from service.mininet_service import MininetService
 from case_handle import *
@@ -24,16 +23,20 @@ def main():
     ## 初始化
     init()
     cur_path = os.getcwd()
+
     try:
-        mininet_service = MininetService(MININET_PYTHON_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
             os.chdir(cur_path)
             reset()
             exit(1)
+
+        print("before change, cur_path is " + cur_path)
         os.chdir(TEST_FRAME_PATH)
+        print("after change, cur_path is " + os.getcwd())
         run_shell_command(MININET_INIT_SHELL_COMMAND)
         os.chdir(cur_path)
-        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
+        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, cur_path + 'ctld.log').start()   ## 启动ctld服务
         if ctld_service is None:
             reset()
             exit(1)
@@ -104,6 +107,20 @@ def reset():
     # 清除虚拟环境
     run_shell_command(CLEAN_NET_SHELL_COMMAND)
     run_shell_command(MININET_CLEAN_SHELL_COMMAND)
+
+def debug():
+    if not os.path.exists(TEST_FRAME_PATH + "/crane-mininet.yaml"):
+        print("文件 " + TEST_FRAME_PATH + "/crane-mininet.yaml" + " 不存在")
+    else:
+        print("文件 " + TEST_FRAME_PATH + "/crane-mininet.yaml" + " 存在")
+    if not os.path.exists(TEST_FRAME_PATH + "/config.yaml"):
+        print("文件 " + TEST_FRAME_PATH + "/config.yaml" + " 不存在")
+    else:
+        print("文件 " + TEST_FRAME_PATH + "/config.yaml" + " 存在")
+    if not os.path.exists(CONFIG_PATH + "/config.yaml"):
+        print("文件 " + CONFIG_PATH + "/config.yaml" + " 不存在")
+    else:
+        print("文件 " + CONFIG_PATH + "/config.yaml" + " 存在")
 
 if __name__ == '__main__':
     main()

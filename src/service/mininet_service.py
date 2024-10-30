@@ -20,12 +20,15 @@ class MininetService:
             with open(self.log_file, 'w') as outfile:
             # 使用 subprocess 启动服务
                 self.process = subprocess.Popen(
-                    shlex.split(self.command),
+                    ['python', 'crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'],
+                    cwd='/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame',
                     stdout=outfile,
                     stderr=outfile,
+                    shell=False,
                     preexec_fn=os.setsid
                 )
             print(f"mininet服务已启动，PID: {self.process.pid}")
+            'python /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py --conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py/config.yaml --crane-conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py/crane-mininet.yaml'
             start_time = time.time()
             timeout = 60
             search_string = 'successfully!'

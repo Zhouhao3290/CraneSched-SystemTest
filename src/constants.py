@@ -9,7 +9,7 @@ DB_SCRIPTS_PATH = "../Crane/scripts"
 CONFIG_PATH = "/etc/crane"
 
 ## shell command
-MININET_SHELL_COMMAND = "./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml"
+MININET_SHELL_COMMAND = "python3 crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml"
 MININET_CLEAN_SHELL_COMMAND = MININET_SHELL_COMMAND + " --clean"
 MININET_INIT_SHELL_COMMAND = MININET_SHELL_COMMAND + " --head"
 CTLD_SHELL_COMMAND = CRANE_BIN_PATH + "/CraneCtld/cranectld"
