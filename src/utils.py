@@ -77,8 +77,9 @@ def backup_and_copy_yaml_file(source_path, backup_path, test_path):
             os.remove(backup_path)
         shutil.copy(source_path, backup_path)
 
-        os.remove(source_path)
-        shutil.copy(test_path, source_path)
+        if os.path.exists(test_path):
+            os.remove(source_path)
+            shutil.copy(test_path, source_path)
     except PermissionError:
         print(f"错误：没有权限访问文件")
     except Exception as e:
@@ -103,8 +104,9 @@ def backup_and_modify_yaml_file(source_path, backup_path, test_dict):
         # yaml_content.update(test_dict)
 
         # 将测试的内容写入文件
-        with open(source_path, 'w', encoding='utf-8') as file:
-            yaml.safe_dump(test_dict, file, default_flow_style=False, allow_unicode=True)
+        if test_dict:
+            with open(source_path, 'w', encoding='utf-8') as file:
+                yaml.safe_dump(test_dict, file, default_flow_style=False, allow_unicode=True)
     # except FileNotFoundError:
     #     print(f"错误：源文件 {source_path} 不存在")
     except PermissionError:
@@ -117,10 +119,11 @@ def recover_file(source_path, backup_path):
     删除测试用的config.yaml文件，config_backup.yaml改回config.yaml
     """
     try:
-        # 删除config.yaml
-        os.remove(source_path)
-        # config_back.yaml改回config.yaml
-        os.rename(backup_path, source_path)
+        if os.path.exists(backup_path):
+            # 删除config.yaml
+            os.remove(source_path)
+            # config_back.yaml改回config.yaml
+            os.rename(backup_path, source_path)
     except FileNotFoundError:
         print(f"错误：文件 {source_path} 不存在")
     except PermissionError:
