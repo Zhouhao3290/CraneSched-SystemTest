@@ -77,17 +77,16 @@ def backup_and_modify_yaml_file(source_path, backup_path, test_dict):
             os.remove(backup_path)
         shutil.copy(source_path, backup_path)
 
-        # 读取yaml文件
-        yaml_content = read_yaml_to_dict(source_path)
+        # # 读取yaml文件
+        # yaml_content = read_yaml_to_dict(source_path)
+        # # 内容替换
+        # yaml_content.update(test_dict)
 
-        # 内容替换
-        yaml_content.update(test_dict)
-
-        # 将修改后的内容写回文件
+        # 将测试的内容写入文件
         with open(source_path, 'w', encoding='utf-8') as file:
-            yaml.safe_dump(yaml_content, file, default_flow_style=False, allow_unicode=True)
-    except FileNotFoundError:
-        print(f"错误：源文件 {source_path} 不存在")
+            yaml.safe_dump(test_dict, file, default_flow_style=False, allow_unicode=True)
+    # except FileNotFoundError:
+    #     print(f"错误：源文件 {source_path} 不存在")
     except PermissionError:
         print(f"错误：没有权限访问文件")
     except Exception as e:
@@ -116,7 +115,7 @@ def get_service_config(file_path) -> dict:
         logger.info('hostname is none.')
         return exit(1)
     else:
-        test_config_dict["ControlMachine"] = host_name
+        test_config_dict["ControlMachine"] = host_name  ## 更新测试启动配置的hostname
     return test_config_dict
 
 def get_mininet_config() -> dict:
