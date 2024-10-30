@@ -17,6 +17,9 @@ CLEAN_NET_SHELL_COMMAND = "mn -c"
 CLEAN_ALL_TABLES_SHELL_COMMAND = "sh " + DB_SCRIPTS_PATH + "/WipeData.sh 5"
 ADD_USER_SHELL_COMMAND = "useradd TestUser"
 
+## python command
+MININET_PYTHON_COMMAND = ['python', TEST_FRAME_PATH, '--conf', 'config.yaml', '--crane-conf', 'crane-mininet.yaml']
+
 ## crane command for case init
 ADD_QOS_CRANE_COMMAND = "cacctmgr add qos -N=TestQos -D test -c=11 -J=2 -T=1800 -P=999"
 ADD_MAIN_ACCOUNT_CRANE_COMMAND = "cacctmgr add account -N=MainTestAccount -D test -p CPU,GPU -q TestQos"
