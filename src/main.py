@@ -24,12 +24,12 @@ def main():
     init()
 
     try:
-        mininet_service = MininetService(MININET_SHELL_COMMAND).start()  ## 启动mininet虚拟化craned
+        mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
             reset()
             exit(1)
         run_shell_command(MININET_INIT_SHELL_COMMAND)
-        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND).start()   ## 启动ctld服务
+        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
         if ctld_service is None:
             reset()
             exit(1)
