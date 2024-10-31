@@ -36,13 +36,15 @@ class CraneCtldService:
                     # 检查日志是否包含特定字符串
                     if search_string in logs:
                         print(f"Found '{search_string}' in logs.")
-                        print(f"mininet服务启动完成，PID: {self.process.pid}")
+                        print(f"ctld服务启动完成，PID: {self.process.pid}")
                         return self
                 time.sleep(10)
-            print(f"mininet服务启动超时或失败，PID: {self.process.pid}")
+            print(f"ctld服务启动超时或失败，PID: {self.process.pid}, 详情可见：{self.log_file}")
+            self.stop()
             return None
         except Exception as e:
-            print(f"启动ctld服务时出错: {e}")
+            print(f"启动ctld服务时出错: {e}, 详情可见：{self.log_file}")
+            self.stop()
             return None
 
     def stop(self):
