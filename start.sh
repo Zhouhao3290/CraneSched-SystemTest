@@ -113,7 +113,7 @@ sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
 
 echo "start system test."
-python3 src/main.py $test_args
+python3 main.py $test_args
 
 usage() {
   echo "script usage: $0 [-i] [-c] [-a args]"

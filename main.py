@@ -1,10 +1,11 @@
 import argparse
+import time
 import traceback
-from service.ctld_service import CraneCtldService
-from service.mininet_service import MininetService
-from case_handle import *
-from utils import *
-from constants import *
+from src.service.ctld_service import CraneCtldService
+from src.service.mininet_service import MininetService
+from src.case_handle import *
+from src.utils import *
+from src.constants import *
 
 logger = logging.getLogger()
 
@@ -25,10 +26,32 @@ def main():
     cur_path = os.getcwd()
 
     try:
-        mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
-        if mininet_service is None:
-            os.chdir(cur_path)
-            reset()
+        # mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        # if mininet_service is None:
+        #     os.chdir(cur_path)
+        #     reset()
+        #     exit(1)
+        log = 'mininet.log'
+        cmd = 'python /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py --conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml --crane-conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'
+        with open(log, "w") as output_file:
+            # 使用 subprocess.run 执行命令，并将结果重定向到文件
+            subprocess.run(cmd, shell=True, stdout=output_file, stderr=subprocess.STDOUT)
+        isFind = False
+        start_time = time.time()
+        timeout = 60
+        search_string = 'successfully!'
+        while time.time() - start_time < timeout:
+            with open(log, 'r') as log_file:
+                logs = log_file.read()
+                # 检查日志是否包含特定字符串
+                if search_string in logs:
+                    print(f"Found '{search_string}' in logs.")
+                    isFind = True
+                    # print(f"mininet服务启动完成，PID: {self.process.pid}")
+            time.sleep(5)
+        # print(f"mininet服务启动超时或失败，PID: {self.process.pid}")
+        if not isFind:
+            print(f"mininet服务启动超时或失败")
             exit(1)
 
         print("before change, cur_path is " + cur_path)

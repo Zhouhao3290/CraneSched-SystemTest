@@ -4,6 +4,10 @@ import os
 import sys
 import time
 
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project_root)
+from src.utils import run_shell_command
+
 
 class MininetService:
     def __init__(self, command, log_file):
@@ -31,11 +35,13 @@ class MininetService:
             #         preexec_fn=os.setsid,
             #         # env=env
             #     )
-                cmd =  ['python', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml']
-                process = subprocess.run(cmd, text=True, capture_output=True)
-                if process.returncode != 0:
-                    print(f"Error: {process.stdout} {process.stderr} ")
+            #     cmd =  ['python', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml']
+            #     process = subprocess.run(cmd, text=True, capture_output=True)
+            #     if process.returncode != 0:
+            #         print(f"Error: {process.stdout} {process.stderr} ")
             # print(f"mininet服务已启动，PID: {self.process.pid}")
+                cmd = 'python /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py --conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml --crane-conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'
+                run_shell_command(cmd)
 
             start_time = time.time()
             timeout = 60
