@@ -131,31 +131,31 @@ def recover_file(source_path, backup_path):
     except Exception as e:
         print(f"删除失败：{e}")
 
-def get_service_config(file_path) -> dict:
-    test_config_dict = read_yaml_to_dict(file_path)
-    host_name = get_command_response("hostname")
-    if host_name is None:
-        logger.info('hostname is none.')
-        return exit(1)
-    else:
-        test_config_dict["ControlMachine"] = host_name  ## 更新测试启动配置的hostname
-    return test_config_dict
+# def get_service_config(file_path) -> dict:
+#     test_config_dict = read_yaml_to_dict(file_path)
+#     host_name = get_command_response("hostname")
+#     if host_name is None:
+#         logger.info('hostname is none.')
+#         return exit(1)
+#     else:
+#         test_config_dict["ControlMachine"] = host_name  ## 更新测试启动配置的hostname
+#     return test_config_dict
 
-def get_mininet_config() -> dict:
-    host_name = get_command_response("hostname")
-    host_ip = get_command_response("hostname -I")
-    if host_name is None or host_ip is None:
-        logger.info('hostname or hostIP is none.')
-        return exit(1)
-    mininet_dict = {
-        "head": host_name,
-        host_name: {
-            "NodeAddr": host_ip + "/24",
-            "HostNum": 4,
-            "Offset": 1,
-            "Subnet": "10.231.0.0/16",
-            "SwitchNum": 1
-        }
-    }
-
-    return mininet_dict
+# def get_mininet_config() -> dict:
+#     host_name = get_command_response("hostname")
+#     host_ip = get_command_response("hostname -I")
+#     if host_name is None or host_ip is None:
+#         logger.info('hostname or hostIP is none.')
+#         return exit(1)
+#     mininet_dict = {
+#         "head": host_name,
+#         host_name: {
+#             "NodeAddr": host_ip + "/24",
+#             "HostNum": 4,
+#             "Offset": 1,
+#             "Subnet": "10.231.0.0/16",
+#             "SwitchNum": 1
+#         }
+#     }
+#
+#     return mininet_dict

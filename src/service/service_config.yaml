@@ -1,6 +1,6 @@
 # Cluster settings (This must be identical across all nodes)
 # the hostname of node which is running cranectld
-ControlMachine: cranetest-system-test
+ControlMachine: cranetest-rocky01
 # the name of this cluster
 ClusterName: cranetest
 # the ip address of control machine

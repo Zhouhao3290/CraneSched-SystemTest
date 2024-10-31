@@ -1,0 +1,8 @@
+head: cranetest-rocky01
+cluster:
+  cranetest-rocky01:
+    NodeAddr: 192.168.1.135/24
+    HostNum: 4
+    Offset: 1
+    Subnet: 10.231.0.0/16
+    SwitchNum: 1

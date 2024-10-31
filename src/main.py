@@ -91,9 +91,11 @@ def init():
     backup_and_copy_yaml_file(TEST_FRAME_PATH + "/crane-mininet.yaml", TEST_FRAME_PATH + "/crane-mininet_backup.yaml",
                                 "src/service/service_config.yaml")
     # 临时修改mininet启动配置
-    mininet_config_dict = get_mininet_config()
-    backup_and_modify_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
-                                mininet_config_dict)
+    backup_and_copy_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
+                                "src/service/mininet_config.yaml")
+    # mininet_config_dict = get_mininet_config()
+    # backup_and_modify_yaml_file(TEST_FRAME_PATH + "/config.yaml", TEST_FRAME_PATH + "/config_backup.yaml",
+    #                             mininet_config_dict)
 
 def reset():
     # 恢复ctld启动配置
