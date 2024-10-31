@@ -75,9 +75,13 @@ if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     fi
     cd build
     cmake -G Ninja ..
+      if [ $? -ne 0 ]; then
+        echo "compile Crane Ninja failed"
+        exit 1
+    fi
     cmake --build . --target cranectld craned pam_crane
-    if [ $? -eq 0 ]; then
-        echo "compile Crane failed"
+    if [ $? -ne 0 ]; then
+        echo "compile Crane cranectld failed"
         exit 1
     fi
     cd $DIR
@@ -89,8 +93,12 @@ if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
     [ "$need_compile" = true ]; then
     cd ../CraneSched-FrontEnd
     make
+    if [ $? -ne 0 ]; then
+        echo "compile CraneSched-FrontEnd failed"
+        exit 1
+    fi
     make install
-    if [ $? -eq 0 ]; then
+    if [ $? -ne 0 ]; then
         echo "compile CraneSched-FrontEnd failed"
         exit 1
     fi
@@ -98,7 +106,6 @@ if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
         echo "copy front bin failed";
         exit 1;
     }
-    cd $DIR
 fi
 
 # 2. init
@@ -112,6 +119,7 @@ yes | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --cl
 cd $DIR
 sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
+# 3. start system test
 python3 src/main.py $test_args
 
 usage() {
