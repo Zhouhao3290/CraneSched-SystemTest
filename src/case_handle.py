@@ -38,6 +38,9 @@ def run_test_process(process) -> bool:
         perfect_match = item.get('perfect_match', True)
         judger = item.get("judger")
         response = get_response_dict(command)
+        print("command is " + command)
+        print("judger is " + json.dumps(judger, indent=4, ensure_ascii=False))
+        print("response is " + json.dumps(response, indent=4, ensure_ascii=False))
         if perfect_match:
             if not dict_equal(response, judger):
                 print("response of  command: " + command + " not perfect match.")

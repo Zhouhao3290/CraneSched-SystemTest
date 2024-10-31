@@ -24,7 +24,8 @@ def main():
     if not cases:
         print("case deque is empty.")
         exit(0)
-
+    else:
+        print(cases)
     ## 初始化
     init()
     try:
