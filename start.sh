@@ -102,7 +102,7 @@ if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
         echo "compile CraneSched-FrontEnd failed"
         exit 1
     fi
-    yes | cp -rf "$CRANE_FRONT_PATH/*" "$BIN_PATH" || {
+    yes | cp -rf "$CRANE_FRONT_PATH/." "$BIN_PATH" || {
         echo "copy front bin failed";
         exit 1;
     }
