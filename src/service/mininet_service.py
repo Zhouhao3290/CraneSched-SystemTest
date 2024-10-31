@@ -17,35 +17,39 @@ class MininetService:
             output_dir = os.path.dirname(self.log_file)
             if output_dir and not os.path.exists(output_dir):
                 os.makedirs(output_dir)
-            env = os.environ.copy()
+            # env = os.environ.copy()
 
-            python_executable = sys.executable
-            env['PYTHONPATH'] = os.path.dirname(os.path.abspath('/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py'))
+            # python_executable = sys.executable
+            # env['PYTHONPATH'] = os.path.dirname(os.path.abspath('/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py'))
             with open(self.log_file, 'w') as outfile:
             # 使用 subprocess 启动服务
-                self.process = subprocess.Popen(
-                    [python_executable, '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'],
-                    # cwd='/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame',
-                    stdout=outfile,
-                    stderr=outfile,
-                    preexec_fn=os.setsid,
-                    env=env
-                )
-            print(f"mininet服务已启动，PID: {self.process.pid}")
+            #     self.process = subprocess.Popen(
+            #         ['/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'],
+            #         # cwd='/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame',
+            #         stdout=outfile,
+            #         stderr=outfile,
+            #         preexec_fn=os.setsid,
+            #         # env=env
+            #     )
+                cmd =  ['python', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml']
+                process = subprocess.run(cmd, text=True, capture_output=True)
+                if process.returncode != 0:
+                    print(f"Error: {process.stdout} {process.stderr} ")
+            # print(f"mininet服务已启动，PID: {self.process.pid}")
 
             start_time = time.time()
             timeout = 60
             search_string = 'successfully!'
-            while self.is_running() and time.time() - start_time < timeout:
+            while time.time() - start_time < timeout:
                 with open(self.log_file, 'r') as log_file:
                     logs = log_file.read()
                     # 检查日志是否包含特定字符串
                     if search_string in logs:
                         print(f"Found '{search_string}' in logs.")
-                        print(f"mininet服务启动完成，PID: {self.process.pid}")
+                        # print(f"mininet服务启动完成，PID: {self.process.pid}")
                         return self
                 time.sleep(5)
-            print(f"mininet服务启动超时或失败，PID: {self.process.pid}")
+            # print(f"mininet服务启动超时或失败，PID: {self.process.pid}")
             return None
         except Exception as e:
             print(f"启动mininet服务时异常: {e}")
@@ -55,16 +59,16 @@ class MininetService:
         """停止服务"""
         if self.process:
             try:
-                os.kill(self.process.pid, 15)  # 发送 SIGTERM 信号
-                self.process.wait()  # 等待进程结束
-                print(f"服务已停止，PID={self.process.pid}")
+                # os.kill(self.process.pid, 15)  # 发送 SIGTERM 信号
+                # self.process.wait()  # 等待进程结束
+                print(f"服务已停止，PID=")
             except Exception as e:
                 print(f"停止服务时出错: {e}")
             finally:
                 self.process = None
 
-    def is_running(self):
-        """检查服务是否在运行"""
-        if self.process :
-            return self.process.poll() is None
-        return False
+    # def is_running(self):
+    #     """检查服务是否在运行"""
+    #     if self.process :
+    #         return self.process.poll() is None
+    #     return False
