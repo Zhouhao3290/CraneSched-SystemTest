@@ -19,6 +19,11 @@ def main():
     case_list = []
     if len(args.case) > 0:
         case_list = args.case.split(',')
+    ## 获取所有可执行的用例,并执行用例
+    cases = get_all_system_test_cases(args.folder, case_list)
+    if not cases:
+        print("case deque is empty.")
+        exit(0)
 
     ## 初始化
     init()
@@ -41,12 +46,8 @@ def main():
         reset()
         exit(1)
 
-    ## 获取所有可执行的用例,并执行用例
-    cases = get_all_system_test_cases(args.folder, case_list)
-    if cases:
-        init_case()
-    else:
-        exit(0)
+
+    init_case()
     failed, passed, error = 0, 0, 0
     failed_case = []
     for i, case in enumerate(cases):

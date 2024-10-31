@@ -11,9 +11,10 @@ from utils import run_shell_command, get_response_dict
 logger = logging.getLogger()
 
 
-def get_all_system_test_cases(folder: str, case_list: list) -> list:
+def get_all_system_test_cases(folder: str, case_list: list):
     """
     get all cases by path, and then merge by base case, the level of val in cur case is higher than it in base case.
+    :param case_list: input case_name list
     :param folder: path for all cases
     :return: get a deque with all system cases for running time
     """
@@ -28,10 +29,10 @@ def get_all_system_test_cases(folder: str, case_list: list) -> list:
                 cases_deque.append(case_json)
     return cases_deque
 
-def run_test_process(list) -> bool:
-    if not list:
+def run_test_process(process) -> bool:
+    if not process:
         return False
-    for item in list:
+    for item in process:
         command = item.get('command')
         perfect_match = item.get('perfect_match', True)
         judger = item.get("judger")
