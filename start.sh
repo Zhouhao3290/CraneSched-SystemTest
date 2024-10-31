@@ -15,12 +15,16 @@ kill_process() {
 
 CRANE_BIN_PATH="../Crane/build/src"
 CRANE_FRONT_PATH="../CraneSched-FrontEnd/build/bin"
-#BIN_PATH="/usr/local/bin"
+BIN_PATH="/usr/local/bin"
 TEST_FRAME_PATH="../CraneSched-TestFramework-Evaluator/TestFrame"
 DB_SCRIPTS_PATH="../Crane/scripts"
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "current user is not root."
+    exit 1
+fi
+if [ ! -e "$BIN_PATH" ]; then
+    echo "Error: PATH $BIN_PATH does not exist."
     exit 1
 fi
 if [ ! -e "$CRANE_BIN_PATH" ]; then
@@ -81,7 +85,7 @@ fi
 
 # 1.2 compile craned
 if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
-#    [ ! -e "$BIN_PATH/cinfo" ] || \
+    [ ! -e "$BIN_PATH/cinfo" ] || \
     [ "$need_compile" = true ]; then
     cd ../CraneSched-FrontEnd
     make
@@ -90,6 +94,10 @@ if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
         echo "compile CraneSched-FrontEnd failed"
         exit 1
     fi
+    yes | cp -rf "$CRANE_FRONT_PATH/*" "$BIN_PATH" || {
+        echo "copy front bin failed";
+        exit 1;
+    }
     cd $DIR
 fi
 
@@ -98,8 +106,7 @@ fi
 cd $TEST_FRAME_PATH
 mn -c
 chmod +x crane-mininet.py
-./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
-
+yes | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
 
 # 2.2 clear data table
 cd $DIR

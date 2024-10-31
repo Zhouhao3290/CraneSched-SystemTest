@@ -6,7 +6,7 @@
   },
   "process": [
     {
-      "command": "cacctmgr show user",
+      "command": "cacctmgr show user --json",
       "perfect_match": true,
       "judger": {
         "ok":true,
@@ -25,7 +25,7 @@
       }
     },
     {
-      "command": "cacctmgr show user root",
+      "command": "cacctmgr show user root --json",
       "perfect_match": false,
       "judger": {
         "ok":true,

@@ -6,7 +6,7 @@
   },
   "process": [
     {
-      "command": "cacctmgr show qos",
+      "command": "cacctmgr show qos --json",
       "perfect_match": true,
       "judger": {
         "ok":true,
