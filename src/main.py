@@ -51,16 +51,18 @@ def main():
     failed, passed, error = 0, 0, 0
     failed_case = []
     for i, case in enumerate(cases):
-        logger.info('execute case {} [{}/{}]'.format(case['name'], i + 1, len(cases)))
         case_name = case['name']
+        logger.info('execute case {} [{}/{}]'.format(case_name, i + 1, len(cases)))
         process = case['process']
         try:
             if run_test_process(process):
                 passed = passed + 1
             else:
+                failed_case.append(case_name)
                 failed = failed + 1
         except:
             error = error + 1
+            failed_case.append(case_name)
             logger.error('case {} execute failed!'.format(case_name))
             traceback.print_exc()
         finally:
