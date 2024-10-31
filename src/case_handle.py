@@ -17,9 +17,21 @@ def get_all_system_test_cases(folder: str, case_list: list):
     :param folder: path for all cases
     :return: get a deque with all system cases for running time
     """
+    print("folder is " + folder)
+    if not os.path.exists(folder):
+        print("路径不存在")
+
+    # 判断路径下是否有文件
+    if any(os.path.isfile(os.path.join(folder, f)) for f in os.listdir(folder)):
+        print("路径存在且包含文件")
+    else:
+        print("路径存在但不包含文件")
+
     cases_deque = collections.deque()
     for dir_path, dir_names, file_names in os.walk(folder):  # 遍历folder文件夹下所有子目录和文件
+        print("dir_path is " + str(dir_path) + ", dir_names is " + str(dir_names) + ", file_names is " + str(file_names))
         for file_name in file_names:
+            print("file_name is " + file_name)
             match = re.search(r'^case_(?P<name>\w+)\.json$', file_name)
             if match is None or (len(case_list) > 0 and file_name not in case_list):
                 continue
