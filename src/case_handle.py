@@ -26,6 +26,7 @@ def get_all_system_test_cases(folder: str, case_list: list):
                 continue
             with open(os.path.join(dir_path, file_name), encoding='utf-8') as f:
                 case_json = json.load(f)
+                case_json['name'] = match.group('name')
                 cases_deque.append(case_json)
     return cases_deque
 
