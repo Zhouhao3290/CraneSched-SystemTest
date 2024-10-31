@@ -26,7 +26,6 @@ class CraneCtldService:
                     preexec_fn=os.setsid
                 )
             print(f"ctld服务已启动，PID={self.process.pid}")
-
             start_time = time.time()
             timeout = 60
             search_string = 'All craned nodes are up'

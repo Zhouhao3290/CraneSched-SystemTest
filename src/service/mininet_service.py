@@ -1,6 +1,7 @@
 import shlex
 import subprocess
 import os
+import sys
 import time
 
 
@@ -16,19 +17,22 @@ class MininetService:
             output_dir = os.path.dirname(self.log_file)
             if output_dir and not os.path.exists(output_dir):
                 os.makedirs(output_dir)
+            env = os.environ.copy()
 
+            python_executable = sys.executable
+            env['PYTHONPATH'] = os.path.dirname(os.path.abspath('/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py'))
             with open(self.log_file, 'w') as outfile:
             # 使用 subprocess 启动服务
                 self.process = subprocess.Popen(
-                    ['python', 'crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'],
-                    cwd='/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame',
+                    [python_executable, '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py', '--conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/config.yaml', '--crane-conf', '/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.yaml'],
+                    # cwd='/nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame',
                     stdout=outfile,
                     stderr=outfile,
-                    shell=False,
-                    preexec_fn=os.setsid
+                    preexec_fn=os.setsid,
+                    env=env
                 )
             print(f"mininet服务已启动，PID: {self.process.pid}")
-            'python /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py --conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py/config.yaml --crane-conf /nfs/home/zhouhao/repo/CraneSched-TestFramework-Evaluator/TestFrame/crane-mininet.py/crane-mininet.yaml'
+
             start_time = time.time()
             timeout = 60
             search_string = 'successfully!'
