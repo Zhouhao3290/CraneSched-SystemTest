@@ -43,7 +43,7 @@ def main():
 
     ## 获取所有可执行的用例,并执行用例
     cases = get_all_system_test_cases(args.folder, case_list)
-    if not cases:
+    if cases:
         init_case()
     else:
         exit(0)
