@@ -14,13 +14,13 @@ def main():
     global mininet_service, ctld_service
     parser = argparse.ArgumentParser()
     parser.add_argument('--case', type=str, default='', help='specify cases')
-    parser.add_argument('--folder', type=str, default='../testcases', help='cases to use')
+    parser.add_argument('--folder', type=str, default='../testcases', help='path of system test case to main.py')
     args = parser.parse_args()
     case_list = []
     if len(args.case) > 0:
         case_list = args.case.split(',')
     ## 获取所有可执行的用例,并执行用例
-    cases = get_all_system_test_cases(args.folder, case_list)
+    cases = get_all_system_test_cases(os.path.dirname(__file__) + '/' + args.folder, case_list)
     if not cases:
         print("case deque is empty.")
         exit(0)
