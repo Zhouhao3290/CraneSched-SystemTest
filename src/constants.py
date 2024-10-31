@@ -21,7 +21,7 @@ ADD_USER_SHELL_COMMAND = "useradd TestUser"
 MININET_PYTHON_COMMAND = ['python', TEST_FRAME_PATH, '--conf', 'config.yaml', '--crane-conf', 'crane-mininet.yaml']
 
 ## crane command for case init
-ADD_QOS_CRANE_COMMAND = "cacctmgr add qos -N=TestQos -D test -c=11 -J=2 -T=1800 -P=999"
-ADD_MAIN_ACCOUNT_CRANE_COMMAND = "cacctmgr add account -N=MainTestAccount -D test -p CPU,GPU -q TestQos"
-ADD_SUB_ACCOUNT_CRANE_COMMAND = "cacctmgr add account -N=SubTestAccount -P=MainTestAccount -D=test"
-ADD_USER_CRANE_COMMAND = "cacctmgr add user -N=TestUser -A=SubTestAccount"
+ADD_QOS_CRANE_COMMAND = "cacctmgr add qos -N=TestQos -D test -c=11 -J=2 -T=1800 -P=999 --json"
+ADD_MAIN_ACCOUNT_CRANE_COMMAND = "cacctmgr add account -N=MainTestAccount -D test -p CPU,GPU -q TestQos --json"
+ADD_SUB_ACCOUNT_CRANE_COMMAND = "cacctmgr add account -N=SubTestAccount -P=MainTestAccount -D=test --json"
+ADD_USER_CRANE_COMMAND = "cacctmgr add user -N=TestUser -A=SubTestAccount --json"

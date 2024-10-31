@@ -33,8 +33,12 @@ def get_command_response(command) -> string:
     :return: string
     """
     response = run_shell_command(command)
-    if response is None: return ''
-    else: return response.stdout.strip()
+    if response is None:
+        print("command is " +  command + ", response is None")
+        return ''
+    else:
+        print("command is " +  command + ", response is " + response.stdout.strip())
+        return response.stdout.strip()
 
 def run_shell_command(command):
     """

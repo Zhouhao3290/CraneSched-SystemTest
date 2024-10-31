@@ -6,7 +6,7 @@ import collections
 
 from constants import *
 from judge import *
-from utils import run_shell_command, get_response_dict
+from utils import run_shell_command, get_response_dict, get_command_response
 
 logger = logging.getLogger()
 
@@ -53,13 +53,13 @@ def run_test_process(process) -> bool:
 
 def init_case():
     # 清空数据库
-    run_shell_command(CLEAN_ALL_TABLES_SHELL_COMMAND)
+    get_command_response(CLEAN_ALL_TABLES_SHELL_COMMAND)
     # 创建一个qos TestQos
-    run_shell_command(ADD_QOS_CRANE_COMMAND)
+    get_command_response(ADD_QOS_CRANE_COMMAND)
     # 创建一个主账号 MainTestAccount
-    run_shell_command(ADD_MAIN_ACCOUNT_CRANE_COMMAND)
+    get_command_response(ADD_MAIN_ACCOUNT_CRANE_COMMAND)
     # 创建一个子账号 SubTestAccount
-    run_shell_command(ADD_SUB_ACCOUNT_CRANE_COMMAND)
+    get_command_response(ADD_SUB_ACCOUNT_CRANE_COMMAND)
     # 创建一个用户 TestUser
     run_shell_command(ADD_USER_SHELL_COMMAND)
     run_shell_command(ADD_USER_CRANE_COMMAND)
