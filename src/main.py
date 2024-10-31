@@ -66,9 +66,9 @@ def main():
         finally:
             init_case()
 
-    mininet_service.stop()
+    # mininet_service.stop()
     ctld_service.stop()
-    reset()
+    # reset()
 
     if failed > 0 or error > 0:
         logger.warning('system test finishd. passed: {}/{}, failed: {}/{}, error: {}/{}'
