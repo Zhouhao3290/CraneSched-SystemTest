@@ -22,7 +22,7 @@ def get_all_system_test_cases(folder: str, case_list: list):
     for dir_path, dir_names, file_names in os.walk(folder):  # 遍历folder文件夹下所有子目录和文件
         for file_name in file_names:
             match = re.search(r'^case_(?P<name>\w+)\.json$', file_name)
-            if match is None or (len(list) > 0 and file_name not in case_list):
+            if match is None or (len(case_list) > 0 and file_name not in case_list):
                 continue
             with open(os.path.join(dir_path, file_name), encoding='utf-8') as f:
                 case_json = json.load(f)
