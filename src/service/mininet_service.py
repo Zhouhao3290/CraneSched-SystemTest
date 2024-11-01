@@ -3,13 +3,11 @@ import subprocess
 import os
 import time
 
-from src.constants import TEST_FRAME_PATH
-
-
 class MininetService:
-    def __init__(self, command, log_file):
+    def __init__(self, command, path, log_file):
         self.process = None
         self.command = command
+        self.path = path
         self.log_file = log_file
 
     def start(self):
@@ -23,7 +21,7 @@ class MininetService:
             # 使用 subprocess 启动服务
                 self.process = subprocess.Popen(
                     shlex.split(self.command),
-                    cwd=TEST_FRAME_PATH,
+                    cwd=self.path,
                     stdout=outfile,
                     stderr=outfile,
                     preexec_fn=os.setsid,

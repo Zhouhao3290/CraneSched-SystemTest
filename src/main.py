@@ -28,7 +28,7 @@ def main():
     ## 初始化
     init()
     try:
-        mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, 'mininet.log').start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
             reset()
             exit(1)
@@ -42,7 +42,6 @@ def main():
         traceback.print_exc()
         reset()
         exit(1)
-
 
     init_case()
     failed, passed, error = 0, 0, 0

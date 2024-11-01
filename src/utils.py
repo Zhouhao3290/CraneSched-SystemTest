@@ -23,7 +23,6 @@ def get_response_dict(command) -> dict:
 
     return data
 
-
 def get_command_response(command) -> string:
     """
     执行shell命令，并拿到string的标准输出
@@ -34,7 +33,6 @@ def get_command_response(command) -> string:
     response = run_shell_command(command)
     if response is None: return ''
     else: return response.stdout.strip()
-
 
 def run_shell_command(command):
     """

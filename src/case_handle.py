@@ -10,7 +10,6 @@ from utils import run_shell_command, get_response_dict
 
 logger = logging.getLogger()
 
-
 def get_all_system_test_cases(folder: str, case_list: list):
     """
     get all cases by path, and then merge by base case, the level of val in cur case is higher than it in base case.
@@ -56,6 +55,3 @@ def init_case():
     # 创建一个用户 TestUser
     run_shell_command(ADD_USER_SHELL_COMMAND)
     run_shell_command(ADD_USER_CRANE_COMMAND)
-
-
-
