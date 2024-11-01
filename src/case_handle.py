@@ -38,9 +38,13 @@ def run_test_process(process) -> bool:
         judger = item.get("judger")
         response = get_response_dict(command)
         if perfect_match:
-            if not dict_equal(response, judger): return False
+            if not dict_equal(response, judger):
+                print("response of  command: " + command + " not perfect match.")
+                return False
         else:
-            if not dict_contains(response, judger): return False
+            if not dict_contains(response, judger):
+                print("response of  command: " + command + " not part match.")
+                return False
     return True
 
 def init_case():

@@ -53,13 +53,15 @@ def main():
         try:
             if run_test_process(process):
                 passed = passed + 1
+                logger.error('case {} pass!'.format(case_name))
             else:
                 failed_case.append(case_name)
                 failed = failed + 1
+                logger.error('case {} failed!'.format(case_name))
         except:
             error = error + 1
             failed_case.append(case_name)
-            logger.error('case {} execute failed!'.format(case_name))
+            logger.error('case {} error!'.format(case_name))
             traceback.print_exc()
         finally:
             init_case()
