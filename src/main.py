@@ -35,6 +35,7 @@ def main():
 
         ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
         if ctld_service is None:
+            mininet_service.stop()
             reset()
             exit(1)
     except:
