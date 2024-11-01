@@ -1,4 +1,5 @@
 import argparse
+import sys
 import traceback
 from time import sleep
 
@@ -8,7 +9,19 @@ from case_handle import *
 from utils import *
 from constants import *
 
+format = '%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] - %(message)s'
+formatter = logging.Formatter(format)
+h1 = logging.StreamHandler(sys.stdout)
+h1.setLevel(logging.INFO)
+h1.addFilter(lambda record: record.levelno <= logging.INFO)
+h1.setFormatter(formatter)
+h2 = logging.StreamHandler()
+h2.setLevel(logging.WARNING)
+h2.setFormatter(formatter)
+logging.getLogger().addHandler(h1)
+logging.getLogger().addHandler(h2)
 logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def main():
     ## 初始化参数
@@ -71,7 +84,7 @@ def main():
     # mininet_service.stop()
     ctld_service.stop()
     # reset()
-
+    print("stop service, failed=" + str(failed) + ", error=" + str(error) + ", passed=" + str(passed))
     if failed > 0 or error > 0:
         logger.warning('system test finishd. passed: {}/{}, failed: {}/{}, error: {}/{}'
                        .format(passed, len(cases), failed, len(cases), error, len(cases)))
@@ -81,6 +94,7 @@ def main():
     else:
         logger.info('system test finishd. passed: {}/{}, failed: {}/{}, error: {}/{}'
                     .format(passed, len(cases), failed, len(cases), error, len(cases)))
+    print("finished system test.")
 
 def init():
     # service_config_dict = get_service_config("src/service/service_config.yaml") # 读取测试的服务配置
