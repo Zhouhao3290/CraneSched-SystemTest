@@ -28,17 +28,27 @@ class CraneCtldService:
             print(f"ctld服务已启动，PID={self.process.pid}")
 
             start_time = time.time()
-            timeout = 60
-            search_string = 'All craned nodes are up'
+            timeout = 180
+            search_success_string = 'All craned nodes are up'
+            search_up_string = 'is up now'
+            need_cnt = 4
             while self.is_running() and time.time() - start_time < timeout:
+                success_cnt = 0
+                is_start = False
                 with open(self.log_file, 'r') as log_file:
-                    logs = log_file.read()
-                    # 检查日志是否包含特定字符串
-                    if search_string in logs:
-                        print(f"Found '{search_string}' in logs.")
-                        print(f"ctld服务启动完成，PID: {self.process.pid}")
-                        return self
-                time.sleep(10)
+                    for line in log_file:
+                        if search_success_string in line:
+                            is_start = True
+                        if search_up_string in line:
+                            success_cnt += 1
+                            if success_cnt >= need_cnt:
+                                is_start = True
+                if  is_start:
+                    print(f"Found '{search_success_string}' or '{search_up_string}' in {self.log_file}.")
+                    print(f"ctld服务启动完成，PID: {self.process.pid}")
+                    return self
+                else:
+                    time.sleep(10)
             print(f"ctld服务启动超时或失败，PID: {self.process.pid}, 详情可见：{self.log_file}")
             self.stop()
             return None
