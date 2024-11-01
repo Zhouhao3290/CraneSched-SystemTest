@@ -59,7 +59,12 @@
         "user_list":[
           {
             "uid":0,
-            "name":"root"
+            "name":"root",
+            "account": "ROOT*",
+            "blocked": false,
+            "allowed_partition_qos_list": [],
+            "coordinator_accounts": [],
+            "admin_level": "Root"
           }
         ]
       }
