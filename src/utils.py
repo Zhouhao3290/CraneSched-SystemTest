@@ -1,7 +1,10 @@
+import json
 import logging
 import string
 import subprocess
 import os
+import traceback
+
 import yaml
 import shutil
 
@@ -15,13 +18,12 @@ def get_response_dict(command) -> dict:
     :return: dict
     """
     output = get_command_response(command)
-    data = {}
-    for line in output.splitlines():
-        if ':' in line:
-            key, value = line.split(':', 1)
-            data[key.strip()] = value.strip()
-
-    return data
+    try:
+        data = json.loads(output)
+        return data
+    except:
+        traceback.print_exc()
+        return {}
 
 def get_command_response(command) -> string:
     """
