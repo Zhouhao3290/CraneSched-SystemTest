@@ -20,7 +20,7 @@ class MininetService:
             with open(self.log_file, 'w') as outfile:
             # 使用 subprocess 启动服务
                 self.process = subprocess.Popen(
-                    shlex.split(self.command),
+                    self.command,
                     cwd=self.path,
                     stdout=outfile,
                     stderr=outfile,
