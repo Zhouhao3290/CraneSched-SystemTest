@@ -33,6 +33,7 @@ def get_all_system_test_cases(folder: str, case_list: list):
 def run_test_process(process) -> bool:
     if not process:
         return False
+    print("process length is " + str(len(process)))
     for item in process:
         command = item.get('command')
         perfect_match = item.get('perfect_match', True)

@@ -110,15 +110,15 @@ fi
 
 # 2. init
 # 2.1 init test frame for virtualizing craned
-cd $TEST_FRAME_PATH
-mn -c
-chmod +x crane-mininet.py
-./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
-yes y | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --head
+#cd $TEST_FRAME_PATH
+#mn -c
+#chmod +x crane-mininet.py
+#./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
+#yes y | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --head
 
 # 2.2 clear data table
 cd $DIR
-sh $DB_SCRIPTS_PATH/WipeData.sh 5
+#sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
 # 3. start system test
 python3 src/main.py $test_args

@@ -30,10 +30,10 @@ def main():
     ## 初始化
     init()
     try:
-        mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, 'mininet.log').start()  ## 启动mininet虚拟化craned
-        if mininet_service is None:
-            reset()
-            exit(1)
+        # mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        # if mininet_service is None:
+        #     reset()
+        #     exit(1)
 
         ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
         if ctld_service is None:
