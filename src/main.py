@@ -66,7 +66,7 @@ def main():
         try:
             if run_test_process(process):
                 passed = passed + 1
-                logger.error('case {} pass!'.format(case_name))
+                logger.info('case {} pass!'.format(case_name))
             else:
                 failed_case.append(case_name)
                 failed = failed + 1
