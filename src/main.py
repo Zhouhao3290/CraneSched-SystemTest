@@ -41,12 +41,12 @@ def main():
     ## 初始化
     init()
     try:
-        mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, MININET_LOG_PATH).start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
             reset()
             exit(1)
 
-        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
+        ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, CTLD_LOG_PATH).start()   ## 启动ctld服务
         if ctld_service is None:
             mininet_service.stop()
             reset()

@@ -7,6 +7,8 @@ BIN_PATH = "usr/local/bin"
 TEST_FRAME_PATH = "../CraneSched-TestFramework-Evaluator/TestFrame"
 DB_SCRIPTS_PATH = "../Crane/scripts"
 CONFIG_PATH = "/etc/crane"
+CTLD_LOG_PATH = "systemtest_ctld.log"
+MININET_LOG_PATH = "systemtest_mininet.log"
 
 ## shell command
 MININET_SHELL_COMMAND = "./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml"
