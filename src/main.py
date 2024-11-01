@@ -1,5 +1,6 @@
 import argparse
 import traceback
+import sys
 
 from service.ctld_service import CraneCtldService
 from service.mininet_service import MininetService
@@ -7,7 +8,19 @@ from case_handle import *
 from utils import *
 from constants import *
 
+format = '%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] - %(message)s'
+formatter = logging.Formatter(format)
+h1 = logging.StreamHandler(sys.stdout)
+h1.setLevel(logging.INFO)
+h1.addFilter(lambda record: record.levelno <= logging.INFO)
+h1.setFormatter(formatter)
+h2 = logging.StreamHandler()
+h2.setLevel(logging.WARNING)
+h2.setFormatter(formatter)
+logging.getLogger().addHandler(h1)
+logging.getLogger().addHandler(h2)
 logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def main():
     ## 初始化参数
