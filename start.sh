@@ -13,6 +13,12 @@ kill_process() {
     fi
 }
 
+usage() {
+  echo "script usage: $0 [-i] [-c] [-a args]"
+  echo "  -c 编译工程"
+  echo '  -a 运行system test脚本所需参数，args要包含在""里，参考指定执行case1和case2, `./start.sh -a "--case=case1,case2"`'
+}
+
 CRANE_BIN_PATH="../Crane/build/src"
 CRANE_FRONT_PATH="../CraneSched-FrontEnd/build/bin"
 BIN_PATH="/usr/local/bin"
@@ -54,7 +60,7 @@ while getopts icha: flag; do
         a)
             test_args=$OPTARG
             ;;
-        h)
+        h|help)
             usage
             exit 0
             ;;
@@ -65,7 +71,7 @@ while getopts icha: flag; do
     esac
 done
 
-# 1.1 compile ctld
+# 1.1 compile crane
 if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     [ ! -e "$CRANE_BIN_PATH/Craned/craned" ] || \
     [ "$need_compile" = true ]; then
@@ -87,7 +93,7 @@ if [ ! -e "$CRANE_BIN_PATH/CraneCtld/cranectld" ] || \
     cd $DIR
 fi
 
-# 1.2 compile craned
+# 1.2 compile crane front
 if [ ! -e "$CRANE_FRONT_PATH/cinfo" ] || \
     [ ! -e "$BIN_PATH/cinfo" ] || \
     [ "$need_compile" = true ]; then
@@ -116,15 +122,9 @@ chmod +x crane-mininet.py
 ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
 yes y | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --head
 
-# 2.2 clear data table
+# 2.2 clear all mongoDB tables
 cd $DIR
 sh $DB_SCRIPTS_PATH/WipeData.sh 5
 
 # 3. start system test
 python3 src/main.py $test_args
-
-usage() {
-  echo "script usage: $0 [-i] [-c] [-a args]"
-  echo "  -c 编译工程"
-  echo '  -a 运行system test脚本所需参数，args要包含在""里，参考指定执行case1和case2, `./start.sh -a "--case=case1,case2"`'
-}
