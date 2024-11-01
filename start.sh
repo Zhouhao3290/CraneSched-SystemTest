@@ -114,6 +114,7 @@ cd $TEST_FRAME_PATH
 mn -c
 chmod +x crane-mininet.py
 yes | ./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --clean
+./crane-mininet.py --conf config.yaml --crane-conf crane-mininet.yaml --head
 
 # 2.2 clear data table
 cd $DIR

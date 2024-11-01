@@ -27,16 +27,12 @@ def main():
 
     ## 初始化
     init()
-    cur_path = os.getcwd()
     try:
-        mininet_service = MininetService(MININET_PYTHON_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
+        mininet_service = MininetService(MININET_SHELL_COMMAND, 'mininet.log').start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
-            os.chdir(cur_path)
             reset()
             exit(1)
-        os.chdir(TEST_FRAME_PATH)
-        run_shell_command(MININET_INIT_SHELL_COMMAND)
-        os.chdir(cur_path)
+
         ctld_service = CraneCtldService(CTLD_SHELL_COMMAND, 'ctld.log').start()   ## 启动ctld服务
         if ctld_service is None:
             reset()
