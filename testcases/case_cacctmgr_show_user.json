@@ -9,19 +9,45 @@
       "command": "cacctmgr show user --json",
       "perfect_match": true,
       "judger": {
-        "ok":true,
-        "reason":"SUCCESS",
-        "user_list":[
+        "ok": true,
+        "reason": "",
+        "user_list": [
           {
-            "uid":0,
-            "name":"root",
-            "account":"ROOT*",
-            "blocked":false,
-            "allowed_partition_qos_list":[],
-            "coordinator_accounts":[],
-            "admin_level":"Root"
+            "uid": 0,
+            "name": "root",
+            "account": "ROOT*",
+            "blocked": false,
+            "allowed_partition_qos_list": [],
+            "coordinator_accounts": [],
+            "admin_level": "Root"
+          },
+          {
+            "uid": 1001,
+            "name": "TestUser",
+            "account": "SubTestAccount*",
+            "blocked": false,
+            "allowed_partition_qos_list": [
+              {
+                "partition_name": "GPU",
+                "qos_list": [
+                    "TestQos"
+                ],
+                "default_qos": "TestQos"
+              },
+              {
+                "partition_name": "CPU",
+                "qos_list": [
+                    "TestQos"
+                ],
+                "default_qos": "TestQos"
+              }
+            ],
+            "coordinator_accounts": [],
+            "admin_level": "None"
           }
-        ]
+        ],
+        "account_list": [],
+        "qos_list": []
       }
     },
     {
@@ -29,7 +55,7 @@
       "perfect_match": false,
       "judger": {
         "ok":true,
-        "reason":"SUCCESS",
+        "reason":"",
         "user_list":[
           {
             "uid":0,

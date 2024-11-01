@@ -9,8 +9,10 @@
       "command": "cacctmgr show qos --json",
       "perfect_match": true,
       "judger": {
-        "ok":true,
-        "reason":"SUCCESS",
+        "ok": true,
+        "reason": "",
+        "user_list": [],
+        "account_list": [],
         "qos_list": [
           {
             "name": "UNLIMITED",
