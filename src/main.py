@@ -41,8 +41,10 @@ def main():
     ## 初始化
     init()
     try:
+        logger.info('start mininet service by {}.'.format(MININET_SHELL_COMMAND))
         mininet_service = MininetService(MININET_SHELL_COMMAND, TEST_FRAME_PATH, MININET_LOG_PATH).start()  ## 启动mininet虚拟化craned
         if mininet_service is None:
+            logger.error('mininet service failed!'.format())
             reset()
             exit(1)
 

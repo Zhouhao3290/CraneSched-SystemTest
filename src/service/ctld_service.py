@@ -3,7 +3,6 @@ import subprocess
 import os
 import time
 
-
 class CraneCtldService:
     def __init__(self, command, log_file):
         self.process = None
